@@ -40,4 +40,9 @@ public class PropertiesCache {
     public boolean containsKey(String key) {
         return configProp.containsKey(key);
     }
+
+    // TODO Implement Encoded properties
+    public String getPropertyDecoded(String key) {
+        return configProp.getProperty(key);
+    }
 }
