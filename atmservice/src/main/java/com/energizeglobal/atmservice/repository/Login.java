@@ -28,6 +28,8 @@ public class Login {
             HttpEntity<AtmMachine> atmMachineHttpEntity = new HttpEntity<>(LocalAtmMachine.getINSTANCE().getLocalAtm(), headers);
             ResponseEntity<AtmMachine> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.login"), atmMachineHttpEntity, AtmMachine.class);
             LocalAtmMachine.getINSTANCE().getLocalAtm().setId(responseEntity.getBody().getId());
+            logger.info("Login successful");
+            logger.info("Atm ID = " + LocalAtmMachine.getINSTANCE().getLocalAtm().getId());
         }
         catch (Exception e) {
             logger.error("Could not login");
