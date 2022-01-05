@@ -1,8 +1,8 @@
 package com.energizeglobal.atmservice.repository;
 
-import com.energizeglobal.atmservice.common.CurrentCardSate;
+import com.energizeglobal.datamodel.types.CurrentCardSate;
 import com.energizeglobal.atmservice.common.PropertiesCache;
-import com.energizeglobal.atmservice.common.CustomHttpEntity;
+import com.energizeglobal.infrastructure.CustomHttpEntity;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.dto.LocalAtmMachine;
 import com.energizeglobal.datamodel.CardTransactionDto;
@@ -17,35 +17,6 @@ import java.math.BigDecimal;
 @Service(CardTransaction.BEAN_NAME)
 public class CardTransaction {
     public static final String BEAN_NAME = "cardTransaction";
-
-    public String validateCard(Long cardNumber){
-        RestTemplate restTemplate = new RestTemplate();
-        CurrentCard.getINSTANCE().newCard();
-        CustomHttpEntity<CardDataRequestDto> data = new CustomHttpEntity<>();
-        CurrentCard.getINSTANCE().setCardNumber(cardNumber);
-        ResponseEntity<CardDataRequestDto> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.find"), data.getHttpEntity(CurrentCard.getINSTANCE().getCardDataRequestDto()), CardDataRequestDto.class);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            CurrentCard.getINSTANCE().setId(responseEntity.getBody().getId());
-            CurrentCard.getINSTANCE().setCardNumber(responseEntity.getBody().getCardNumber());
-            CurrentCard.getINSTANCE().setCurrentCardSate(CurrentCardSate.CARD_INSERTED);
-            return responseEntity.getBody().getError().toString();
-        }
-        else
-            return "Server Error";
-    }
-
-    public String authenticateCard(String authentication) {
-        CurrentCard.getINSTANCE().setCardAuthenticationValue(authentication);
-        RestTemplate restTemplate = new RestTemplate();
-        CustomHttpEntity<CardDataRequestDto> entity = new CustomHttpEntity<>();
-        ResponseEntity<CardDataRequestDto> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.validate"), entity.getHttpEntity(CurrentCard.getINSTANCE().getCardDataRequestDto()), CardDataRequestDto.class);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            CurrentCard.getINSTANCE().setCurrentCardSate(CurrentCardSate.CARD_VALIDATED);
-            return responseEntity.getBody().getError().toString();
-        }
-        else
-            return "Server Error";
-    }
 
     public CardTransactionDto depositTransaction(BigDecimal amount) {
         RestTemplate restTemplate = new RestTemplate();

@@ -3,7 +3,7 @@ package com.energizeglobal.atmservice.service;
 import com.energizeglobal.atmservice.action.DepositCash;
 import com.energizeglobal.atmservice.action.Print;
 import com.energizeglobal.atmservice.action.WithdrawCash;
-import com.energizeglobal.atmservice.common.CurrentCardSate;
+import com.energizeglobal.datamodel.types.CurrentCardSate;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.repository.CardTransaction;
 import com.energizeglobal.datamodel.CardTransactionDto;

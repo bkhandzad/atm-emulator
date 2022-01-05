@@ -1,6 +1,6 @@
 package com.energizeglobal.atmservice.dto;
 
-import com.energizeglobal.atmservice.common.CurrentCardSate;
+import com.energizeglobal.datamodel.types.CurrentCardSate;
 import com.energizeglobal.datamodel.CustomerCardDto;
 import com.energizeglobal.datamodel.request.CardDataRequestDto;
 

@@ -1,4 +1,4 @@
-package com.energizeglobal.atmservice.common;
+package com.energizeglobal.infrastructure;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

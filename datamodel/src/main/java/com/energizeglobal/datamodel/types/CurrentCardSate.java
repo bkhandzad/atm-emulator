@@ -1,4 +1,4 @@
-package com.energizeglobal.atmservice.common;
+package com.energizeglobal.datamodel.types;
 
 public enum CurrentCardSate {
     NONE,

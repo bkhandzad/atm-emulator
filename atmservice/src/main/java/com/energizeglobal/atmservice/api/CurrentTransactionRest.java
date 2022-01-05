@@ -1,12 +1,6 @@
 package com.energizeglobal.atmservice.api;
 
-import com.energizeglobal.atmservice.action.DepositCash;
-import com.energizeglobal.atmservice.action.Print;
-import com.energizeglobal.atmservice.action.WithdrawCash;
-import com.energizeglobal.atmservice.common.CurrentCardSate;
-import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.service.CurrentTransactionService;
-import com.energizeglobal.datamodel.CardTransactionDto;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
