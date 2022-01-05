@@ -1,5 +1,6 @@
 package com.energizeglobal.atmservice.api;
 
+import com.energizeglobal.atmservice.dto.TransactionAmount;
 import com.energizeglobal.atmservice.service.CurrentTransactionService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -24,12 +25,12 @@ public class CurrentTransactionRest {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
     @PostMapping(value = "/withDraw")
-    public String withDraw(@RequestBody BigDecimal amount) {
+    public String withDraw(@RequestBody TransactionAmount amount) throws InterruptedException  {
         try {
-            return service.withDraw(amount);
+            return service.withDraw(amount.getAmount());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return "Server not respond";
+            throw new RuntimeException("Server not respond");
         }
     }
 
@@ -37,20 +38,21 @@ public class CurrentTransactionRest {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
     @PostMapping(value = "/deposit")
-    public String deposit(@RequestBody BigDecimal amount) {
+    public String deposit(@RequestBody TransactionAmount amount) throws InterruptedException {
         try {
-            return service.deposit(amount);
+            return service.deposit(amount.getAmount());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return "Server not respond";
+            throw new RuntimeException("Server not respond");
         }
     }
 
-    public void fallbackTransaction() {
+    public String fallbackTransaction(TransactionAmount amount) {
         try {
             service.removeTransaction();
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
+        return "Transaction reverted";
     }
 }

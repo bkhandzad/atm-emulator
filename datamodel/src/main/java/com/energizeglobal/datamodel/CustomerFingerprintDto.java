@@ -11,6 +11,7 @@ public class CustomerFingerprintDto extends AbstractValueObject {
     private String fingerprint;
 
     public CustomerFingerprintDto() {
+        this.customerDto = new CustomerDto();
     }
 
     public CustomerFingerprintDto(Long id, CustomerDto customerDto, String fingerprint, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {

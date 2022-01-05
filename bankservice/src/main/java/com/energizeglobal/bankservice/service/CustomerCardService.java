@@ -1,7 +1,6 @@
 package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.datamodel.CustomerCardDto;
 import com.energizeglobal.datamodel.request.CardDataRequestDto;
 import com.energizeglobal.datamodel.types.AuthMethod;
 import com.energizeglobal.datamodel.types.CardState;
@@ -63,12 +62,20 @@ public class CustomerCardService {
                     returnValue.setAuthMethod(entity.get().getAuthMethod());
                     returnValue.setCardState(entity.get().getCardState());
                     returnValue.setError(CardAuthResult.OK);
+                    if (entity.get().getIncorrectPIN() > 0){
+                        entity.get().setCardPIN(0L);
+                        customerCardRepository.save(entity.get());
+                    }
                 } else if (entity.get().getAuthMethod() == AuthMethod.FINGERPRINT && customerFingerprintService.findFingerprint(entity.get().getCustomerEntity().getId()).getFingerprint().equals(auth)) {
                     returnValue.setId(entity.get().getId());
                     returnValue.setCardNumber(entity.get().getCardNumber());
                     returnValue.setAuthMethod(entity.get().getAuthMethod());
                     returnValue.setCardState(entity.get().getCardState());
                     returnValue.setError(CardAuthResult.OK);
+                    if (entity.get().getIncorrectPIN() > 0){
+                        entity.get().setCardPIN(0L);
+                        customerCardRepository.save(entity.get());
+                    }
                 } else {
                     returnValue.setError(CardAuthResult.INVALID_AUTH);
                     entity.get().setIncorrectPIN(entity.get().getIncorrectPIN() + 1);

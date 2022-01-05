@@ -22,6 +22,7 @@ public class CustomerCardDto extends AbstractValueObject {
     private AuthMethod authMethod;
 
     public CustomerCardDto() {
+        this.customerDto = new CustomerDto();
     }
 
     public CustomerCardDto(Long id, CardState cardState, CustomerDto customerDto, Long cardNumber, Long accountNumber, Long cardPIN, String cvv2, LocalDateTime issueDate, LocalDateTime expireDate, Integer incorrectPIN, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {

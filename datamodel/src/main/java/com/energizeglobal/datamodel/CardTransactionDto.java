@@ -16,6 +16,8 @@ public class CardTransactionDto extends AbstractValueObject {
     public BigDecimal transactionAmount;
 
     public CardTransactionDto() {
+        this.customerCardDto = new CustomerCardDto();
+        this.atmMachineDto = new AtmMachineDto();
     }
 
     public CardTransactionDto(Long id, CustomerCardDto customerCardDto, AtmMachineDto atmMachineDto, TransactionType transactionType, BigDecimal transactionAmount, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {
