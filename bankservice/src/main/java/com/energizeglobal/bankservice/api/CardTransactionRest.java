@@ -2,6 +2,8 @@ package com.energizeglobal.bankservice.api;
 
 import com.energizeglobal.bankservice.service.CardTransactionService;
 import com.energizeglobal.datamodel.*;
+import com.energizeglobal.datamodel.request.CardBalanceDto;
+import com.energizeglobal.datamodel.request.TransactionsRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,8 @@ public class CardTransactionRest {
     }
 
     @GetMapping("/transactions")
-    public ResponseEntity<List<CardTransactionDto>> getCardTransactions(@RequestBody TransactionsRequest transactionsRequest) {
-        return ResponseEntity.ok(service.getLastTransactions(transactionsRequest.getCardNumber(), transactionsRequest.getCount()));
+    public ResponseEntity<List<CardTransactionDto>> getCardTransactions(@RequestBody TransactionsRequestDto transactionsRequestDto) {
+        return ResponseEntity.ok(service.getLastTransactions(transactionsRequestDto.getCardNumber(), transactionsRequestDto.getCount()));
     }
 
     @GetMapping("/balance")

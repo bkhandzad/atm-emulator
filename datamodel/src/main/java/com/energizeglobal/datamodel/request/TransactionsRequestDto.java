@@ -1,13 +1,13 @@
-package com.energizeglobal.datamodel;
+package com.energizeglobal.datamodel.request;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class TransactionsRequest {
+public class TransactionsRequestDto {
     private Long cardNumber;
     private Integer count;
 
-    public TransactionsRequest(Long cardNumber, Integer count) {
+    public TransactionsRequestDto(Long cardNumber, Integer count) {
         this.cardNumber = cardNumber;
         this.count = count;
     }
@@ -32,7 +32,7 @@ public class TransactionsRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TransactionsRequest that = (TransactionsRequest) o;
+        TransactionsRequestDto that = (TransactionsRequestDto) o;
         return Objects.equals(cardNumber, that.cardNumber) && Objects.equals(count, that.count);
     }
 

@@ -14,23 +14,23 @@ public class CustomerCardDto extends AbstractValueObject {
     private CustomerDto customerDto;
     private Long cardNumber;
     private Long accountNumber;
+    private Long cardPIN;
     private String cvv2;
     private LocalDateTime issueDate;
     private LocalDateTime expireDate;
     private Integer incorrectPIN;
     private AuthMethod authMethod;
-    private String cardAuthenticationValue;
-    private CardAuthResult error;
 
     public CustomerCardDto() {
     }
 
-    public CustomerCardDto(Long id, CardState cardState, CustomerDto customerDto, Long cardNumber, Long accountNumber, String cvv2, LocalDateTime issueDate, LocalDateTime expireDate, Integer incorrectPIN, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {
+    public CustomerCardDto(Long id, CardState cardState, CustomerDto customerDto, Long cardNumber, Long accountNumber, Long cardPIN, String cvv2, LocalDateTime issueDate, LocalDateTime expireDate, Integer incorrectPIN, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {
         this.id = id;
         this.cardState = cardState;
         this.customerDto = customerDto;
         this.cardNumber = cardNumber;
         this.accountNumber = accountNumber;
+        this.cardPIN = cardPIN;
         this.cvv2 = cvv2;
         this.issueDate = issueDate;
         this.expireDate = expireDate;
@@ -70,6 +70,14 @@ public class CustomerCardDto extends AbstractValueObject {
 
     public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public Long getCardPIN() {
+        return cardPIN;
+    }
+
+    public void setCardPIN(Long cardPIN) {
+        this.cardPIN = cardPIN;
     }
 
     public String getCvv2() {
@@ -112,22 +120,6 @@ public class CustomerCardDto extends AbstractValueObject {
         this.authMethod = authMethod;
     }
 
-    public String getCardAuthenticationValue() {
-        return cardAuthenticationValue;
-    }
-
-    public void setCardAuthenticationValue(String cardAuthenticationValue) {
-        this.cardAuthenticationValue = cardAuthenticationValue;
-    }
-
-    public CardAuthResult getError() {
-        return error;
-    }
-
-    public void setError(CardAuthResult error) {
-        this.error = error;
-    }
-
     @Override
     public String toString() {
         return new StringJoiner(", ", "[", "]")
@@ -155,12 +147,12 @@ public class CustomerCardDto extends AbstractValueObject {
                 Objects.equals(cardNumber, that.cardNumber) && Objects.equals(accountNumber, that.accountNumber) &&
                 Objects.equals(cvv2, that.cvv2) && Objects.equals(issueDate, that.issueDate) && Objects.equals(expireDate, that.expireDate) &&
                 Objects.equals(incorrectPIN, that.incorrectPIN) && authMethod == that.authMethod &&
-                Objects.equals(cardAuthenticationValue, that.cardAuthenticationValue) && error == that.error;
+                Objects.equals(cardPIN, that.cardPIN);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardState, customerDto, cardNumber, accountNumber, cvv2, issueDate, expireDate, incorrectPIN, authMethod, cardAuthenticationValue, error);
+        return Objects.hash(cardState, customerDto, cardNumber, cardPIN, accountNumber, cvv2, issueDate, expireDate, incorrectPIN, authMethod);
     }
 
 

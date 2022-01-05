@@ -1,4 +1,4 @@
-package com.energizeglobal.datamodel;
+package com.energizeglobal.datamodel.request;
 
 
 import java.math.BigDecimal;

@@ -2,7 +2,7 @@ package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.CardTransactionEntity;
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.bankservice.transformer.CustomerCardTransformer;
+import com.energizeglobal.datamodel.request.CardBalanceDto;
 import com.energizeglobal.datamodel.types.TransactionType;
 import com.energizeglobal.bankservice.repository.CardTransactionRepository;
 import com.energizeglobal.bankservice.transformer.CardTransactionTransformer;

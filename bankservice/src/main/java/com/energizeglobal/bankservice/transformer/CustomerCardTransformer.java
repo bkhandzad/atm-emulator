@@ -19,6 +19,7 @@ public class CustomerCardTransformer extends AbstractTransformer<CustomerCardEnt
         output.setCardState(input.getCardState());
         output.setCardNumber(input.getCardNumber());
         output.setAccountNumber(input.getAccountNumber());
+        output.setCardPIN(input.getCardPIN());
         output.setCvv2(input.getCvv2());
         output.setIssueDate(input.getIssueDate());
         output.setExpireDate(input.getExpireDate());
@@ -32,6 +33,7 @@ public class CustomerCardTransformer extends AbstractTransformer<CustomerCardEnt
         output.setCardState(input.getCardState());
         output.setCardNumber(input.getCardNumber());
         output.setAccountNumber(input.getAccountNumber());
+        output.setCardPIN(input.getCardPIN());
         output.setCvv2(input.getCvv2());
         output.setIssueDate(input.getIssueDate());
         output.setExpireDate(input.getExpireDate());
