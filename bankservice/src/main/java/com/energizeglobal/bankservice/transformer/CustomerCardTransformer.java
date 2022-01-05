@@ -2,7 +2,7 @@ package com.energizeglobal.bankservice.transformer;
 
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
 import com.energizeglobal.bankservice.dto.CustomerCardDto;
-import com.energizeglobal.bankservice.infrastructure.AbstractTransformer;
+import com.energizeglobal.infrastructure.AbstractTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

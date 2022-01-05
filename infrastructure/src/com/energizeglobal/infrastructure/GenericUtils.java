@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.infrastructure;
+package com.energizeglobal.infrastructure;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

@@ -1,6 +1,6 @@
 package com.energizeglobal.bankservice.domain;
 
-import com.energizeglobal.bankservice.infrastructure.AbstractPersistence;
+import com.energizeglobal.infrastructure.AbstractPersistence;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -21,6 +21,7 @@
         <module>atmservice</module>
         <module>bankservice</module>
         <module>datamodel</module>
+        <module>infrastructure</module>
     </modules>
 
     <dependencies>

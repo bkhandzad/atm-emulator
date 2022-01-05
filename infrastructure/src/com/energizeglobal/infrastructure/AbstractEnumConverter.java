@@ -1,6 +1,6 @@
-package com.energizeglobal.bankservice.infrastructure;
+package com.energizeglobal.infrastructure;
 
-import com.energizeglobal.bankservice.exceptin.NotFoundEquivalentEnum;
+import com.energizeglobal.infrastructure.exceptin.NotFoundEquivalentEnum;
 
 import javax.persistence.AttributeConverter;
 import java.util.EnumSet;

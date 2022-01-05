@@ -1,7 +1,7 @@
 package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.dto.CustomerFingerprintDto;
-import com.energizeglobal.bankservice.exceptin.ServiceException;
+import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.CustomerFingerprintRepository;
 import com.energizeglobal.bankservice.transformer.CustomerFingerprintTransformer;
 import com.energizeglobal.bankservice.transformer.CustomerTransformer;

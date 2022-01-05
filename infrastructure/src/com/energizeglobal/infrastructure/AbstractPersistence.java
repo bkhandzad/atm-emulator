@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.infrastructure;
+package com.energizeglobal.infrastructure;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

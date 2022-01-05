@@ -1,7 +1,7 @@
-package com.energizeglobal.bankservice.exceptin;
+package com.energizeglobal.infrastructure.exceptin;
 
 
-import com.energizeglobal.bankservice.infrastructure.AbstractException;
+import com.energizeglobal.infrastructure.AbstractException;
 import org.springframework.http.HttpStatus;
 
 /**

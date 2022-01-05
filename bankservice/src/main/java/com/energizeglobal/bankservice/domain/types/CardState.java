@@ -1,7 +1,7 @@
 package com.energizeglobal.bankservice.domain.types;
 
-import com.energizeglobal.bankservice.infrastructure.AbstractEnumConverter;
-import com.energizeglobal.bankservice.infrastructure.Convertible;
+import com.energizeglobal.infrastructure.AbstractEnumConverter;
+import com.energizeglobal.infrastructure.Convertible;
 
 public enum CardState implements Convertible<String> {
     READY("R"), // Need to change Pin

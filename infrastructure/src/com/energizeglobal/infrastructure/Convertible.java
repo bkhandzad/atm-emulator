@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.infrastructure;
+package com.energizeglobal.infrastructure;
 /**
  * when a enum wants to convert to database column and vice versa, use this interface.
  *

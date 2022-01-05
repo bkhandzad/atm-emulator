@@ -1,9 +1,7 @@
-package com.energizeglobal.bankservice.exceptin;
+package com.energizeglobal.infrastructure.exceptin;
 
-import com.energizeglobal.bankservice.infrastructure.AbstractException;
+import com.energizeglobal.infrastructure.AbstractException;
 import org.springframework.http.HttpStatus;
-
-import java.util.function.Supplier;
 
 public class ServiceException extends AbstractException {
     public ServiceException(String message) {

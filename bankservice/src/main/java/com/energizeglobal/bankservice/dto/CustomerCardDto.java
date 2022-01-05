@@ -2,9 +2,8 @@ package com.energizeglobal.bankservice.dto;
 
 import com.energizeglobal.bankservice.domain.types.AuthMethod;
 import com.energizeglobal.bankservice.domain.types.CardState;
-import com.energizeglobal.bankservice.infrastructure.AbstractValueObject;
+import com.energizeglobal.infrastructure.AbstractValueObject;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class CustomerCardDto extends AbstractValueObject {

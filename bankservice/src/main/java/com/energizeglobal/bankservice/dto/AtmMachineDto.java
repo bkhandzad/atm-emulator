@@ -1,8 +1,7 @@
 package com.energizeglobal.bankservice.dto;
 
-import com.energizeglobal.bankservice.infrastructure.AbstractValueObject;
+import com.energizeglobal.infrastructure.AbstractValueObject;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class AtmMachineDto extends AbstractValueObject {

@@ -3,14 +3,11 @@ package com.energizeglobal.bankservice.service;
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
 import com.energizeglobal.bankservice.domain.types.AuthMethod;
 import com.energizeglobal.bankservice.domain.types.CardState;
-import com.energizeglobal.bankservice.dto.CustomerCardDto;
-import com.energizeglobal.bankservice.dto.CustomerFingerprintDto;
-import com.energizeglobal.bankservice.exceptin.ServiceException;
+import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.CustomerCardRepository;
 import com.energizeglobal.bankservice.transformer.CustomerCardTransformer;
 import com.energizeglobal.datamodel.CustomerCard;
 import com.energizeglobal.datamodel.type.CardAuthResult;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

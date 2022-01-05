@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.infrastructure.json;
+package com.energizeglobal.infrastructure.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

@@ -1,10 +1,7 @@
 package com.energizeglobal.bankservice.service;
 
-import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.bankservice.domain.CustomerEntity;
-import com.energizeglobal.bankservice.dto.CustomerCardDto;
 import com.energizeglobal.bankservice.dto.CustomerDto;
-import com.energizeglobal.bankservice.exceptin.ServiceException;
+import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.CustomerRepository;
 import com.energizeglobal.bankservice.transformer.CustomerTransformer;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,9 +2,8 @@ package com.energizeglobal.bankservice.dto;
 
 
 import com.energizeglobal.bankservice.domain.types.TransactionType;
-import com.energizeglobal.bankservice.infrastructure.AbstractValueObject;
+import com.energizeglobal.infrastructure.AbstractValueObject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

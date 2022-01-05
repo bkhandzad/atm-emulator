@@ -2,7 +2,7 @@ package com.energizeglobal.bankservice.transformer;
 
 import com.energizeglobal.bankservice.domain.CustomerEntity;
 import com.energizeglobal.bankservice.dto.CustomerDto;
-import com.energizeglobal.bankservice.infrastructure.AbstractTransformer;
+import com.energizeglobal.infrastructure.AbstractTransformer;
 import org.springframework.stereotype.Component;
 
 @Component(CustomerTransformer.BEAN_NAME)

@@ -2,7 +2,7 @@ package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.AtmMachineEntity;
 import com.energizeglobal.bankservice.dto.AtmMachineDto;
-import com.energizeglobal.bankservice.exceptin.ServiceException;
+import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.AtmMachineRepository;
 import com.energizeglobal.bankservice.transformer.AtmMachineTransformer;
 import com.energizeglobal.datamodel.AtmMachine;

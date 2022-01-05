@@ -1,9 +1,9 @@
-package com.energizeglobal.bankservice.infrastructure;
+package com.energizeglobal.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.energizeglobal.bankservice.infrastructure.json.*;
+import com.energizeglobal.infrastructure.json.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
