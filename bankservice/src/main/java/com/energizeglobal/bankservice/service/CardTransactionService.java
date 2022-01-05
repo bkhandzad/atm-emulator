@@ -3,6 +3,7 @@ package com.energizeglobal.bankservice.service;
 import com.energizeglobal.bankservice.domain.CardTransactionEntity;
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
 import com.energizeglobal.datamodel.request.CardBalanceDto;
+import com.energizeglobal.datamodel.types.CardTransactionResult;
 import com.energizeglobal.datamodel.types.TransactionType;
 import com.energizeglobal.bankservice.repository.CardTransactionRepository;
 import com.energizeglobal.bankservice.transformer.CardTransactionTransformer;
@@ -37,15 +38,22 @@ public class CardTransactionService {
         cardTransactionRepository.save(entity);
         transaction.setId(entity.getId());
         transaction.setInsertDate(entity.getInsertDate());
+        transaction.setTransactionResult(CardTransactionResult.OK);
         return transaction;
     }
 
     public CardTransactionDto withdraw(CardTransactionDto transaction){
+        CardBalanceDto balanceDto = getCardBalance(new CardBalanceDto(transaction.getCardNumber()));
+        if (transaction.getTransactionAmount().compareTo(balanceDto.getBalance()) > 0){
+            transaction.setTransactionResult(CardTransactionResult.INSUFFICIENT_BALANCE);
+            return transaction;
+        }
         CardTransactionEntity entity = getCardTransaction(transaction.getCardNumber(),transaction.getAtmMachineDto().getId(),transaction.getTransactionAmount());
         entity.setTransactionType(TransactionType.WITHDRAW);
         cardTransactionRepository.save(entity);
         transaction.setId(entity.getId());
         transaction.setInsertDate(entity.getInsertDate());
+        transaction.setTransactionResult(CardTransactionResult.OK);
         return transaction;
     }
 
@@ -66,10 +74,10 @@ public class CardTransactionService {
         return transactions;
     }
 
-    public CardBalanceDto getCardBalance(Long cardNumber){
-        CustomerCardEntity customerCardEntity = customerCardService.findCustomerCardEntity(cardNumber);
+    public CardBalanceDto getCardBalance(CardBalanceDto cardBalanceDto){
+        CustomerCardEntity customerCardEntity = customerCardService.findCustomerCardEntity(cardBalanceDto.getCardNumber());
         BigDecimal balance = cardTransactionRepository.sumDepositAmount(customerCardEntity).subtract(cardTransactionRepository.sumWithdrawAmount(customerCardEntity));
-        CardBalanceDto cardBalanceDto = new CardBalanceDto(balance,customerCardEntity.getCardNumber());
+        cardBalanceDto.setBalance(balance);
         return cardBalanceDto;
     }
 

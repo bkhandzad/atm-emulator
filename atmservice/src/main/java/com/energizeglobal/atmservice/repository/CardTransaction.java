@@ -1,5 +1,6 @@
 package com.energizeglobal.atmservice.repository;
 
+import com.energizeglobal.datamodel.request.CardBalanceDto;
 import com.energizeglobal.datamodel.types.CurrentCardSate;
 import com.energizeglobal.atmservice.common.PropertiesCache;
 import com.energizeglobal.infrastructure.CustomHttpEntity;
@@ -44,5 +45,11 @@ public class CardTransaction {
         transaction.setAtmMachineDto(LocalAtmMachine.getINSTANCE().getLocalAtm());
         transaction.getCustomerCardDto().setCardNumber(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber());
         return transaction;
+    }
+
+    public CardBalanceDto getCardBalance(){
+        RestTemplate restTemplate = new RestTemplate();
+        CustomHttpEntity<CardBalanceDto> entity = new CustomHttpEntity<>();
+        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.balance"), entity.getHttpEntity(new CardBalanceDto(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber())), CardBalanceDto.class).getBody();
     }
 }

@@ -1,6 +1,7 @@
 package com.energizeglobal.datamodel;
 
 
+import com.energizeglobal.datamodel.types.CardTransactionResult;
 import com.energizeglobal.datamodel.types.TransactionType;
 import com.energizeglobal.infrastructure.AbstractValueObject;
 
@@ -13,7 +14,8 @@ public class CardTransactionDto extends AbstractValueObject {
     private CustomerCardDto customerCardDto;
     private AtmMachineDto atmMachineDto;
     private TransactionType transactionType;
-    public BigDecimal transactionAmount;
+    private BigDecimal transactionAmount;
+    private CardTransactionResult transactionResult;
 
     public CardTransactionDto() {
         this.customerCardDto = new CustomerCardDto();
@@ -67,6 +69,14 @@ public class CardTransactionDto extends AbstractValueObject {
         return this.customerCardDto.getCardNumber();
     }
 
+    public CardTransactionResult getTransactionResult() {
+        return transactionResult;
+    }
+
+    public void setTransactionResult(CardTransactionResult transactionResult) {
+        this.transactionResult = transactionResult;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", "[", "]")
@@ -75,6 +85,7 @@ public class CardTransactionDto extends AbstractValueObject {
                 .add("atmMachineDto='" + atmMachineDto.toString() + "'")
                 .add("transactionType='" + transactionType.toString() + "'")
                 .add("transactionAmount='" + transactionAmount + "'")
+                .add("transactionResult='" + transactionResult.toString() + "'")
                 .add("insertDate='" + insertDate + "'")
                 .add("modifyDate='" + modifyDate + "'")
                 .add("version='" + version + "'")
@@ -87,12 +98,12 @@ public class CardTransactionDto extends AbstractValueObject {
         if (o == null || getClass() != o.getClass()) return false;
         CardTransactionDto that = (CardTransactionDto) o;
         return Objects.equals(customerCardDto, that.customerCardDto) && Objects.equals(atmMachineDto, that.atmMachineDto) &&
-                transactionType == that.transactionType && Objects.equals(transactionAmount, that.transactionAmount);
+                transactionType == that.transactionType && Objects.equals(transactionAmount, that.transactionAmount)&& (transactionResult == this.transactionResult);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerCardDto, atmMachineDto, transactionType, transactionAmount);
+        return Objects.hash(customerCardDto, atmMachineDto, transactionType, transactionAmount, transactionResult);
     }
 }
 

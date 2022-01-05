@@ -11,10 +11,10 @@ import java.util.List;
 
 @Repository
 public interface CardTransactionRepository extends CrudRepository<CardTransactionEntity,Long> {
-    @Query(value = "SELECT sum(c.transactionAmount) FROM CardTransactionEntity c WHERE c.transactionType = -1 AND c.customerCardEntity = :customerCardEntity")
+    @Query(value = "SELECT COALESCE(SUM(c.transactionAmount), 0) FROM CardTransactionEntity c WHERE c.transactionType = -1 AND c.customerCardEntity = :customerCardEntity")
     BigDecimal sumWithdrawAmount(CustomerCardEntity customerCardEntity);
 
-    @Query(value = "SELECT sum(c.transactionAmount) FROM CardTransactionEntity c WHERE c.transactionType = 1 AND c.customerCardEntity = :customerCardEntity")
+    @Query(value = "SELECT COALESCE(SUM(c.transactionAmount), 0) FROM CardTransactionEntity c WHERE c.transactionType = 1 AND c.customerCardEntity = :customerCardEntity")
     BigDecimal sumDepositAmount(CustomerCardEntity customerCardEntity);
 
     List<CardTransactionEntity> findAllByCustomerCardEntityOrderByInsertDate(CustomerCardEntity customerCardEntity);

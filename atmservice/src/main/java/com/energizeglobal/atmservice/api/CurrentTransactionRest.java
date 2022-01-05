@@ -55,4 +55,9 @@ public class CurrentTransactionRest {
         }
         return "Transaction reverted";
     }
+
+    @GetMapping("/balance")
+    public String getCardBalance(){
+        return service.getCardBalance();
+    }
 }

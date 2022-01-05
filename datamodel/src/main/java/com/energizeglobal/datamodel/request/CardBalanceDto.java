@@ -12,6 +12,10 @@ public class CardBalanceDto {
     public CardBalanceDto() {
     }
 
+    public CardBalanceDto(Long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     public CardBalanceDto(BigDecimal balance, Long cardNumber) {
         this.balance = balance;
         this.cardNumber = cardNumber;

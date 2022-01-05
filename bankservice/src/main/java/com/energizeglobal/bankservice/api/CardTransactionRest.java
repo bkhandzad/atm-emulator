@@ -32,13 +32,13 @@ public class CardTransactionRest {
         service.deleteById(id);
     }
 
-    @GetMapping("/transactions")
+    @PostMapping("/transactions")
     public ResponseEntity<List<CardTransactionDto>> getCardTransactions(@RequestBody TransactionsRequestDto transactionsRequestDto) {
         return ResponseEntity.ok(service.getLastTransactions(transactionsRequestDto.getCardNumber(), transactionsRequestDto.getCount()));
     }
 
-    @GetMapping("/balance")
-    public ResponseEntity<CardBalanceDto> getCardBalance(@RequestBody CustomerCardDto customerCard) {
-        return ResponseEntity.ok(service.getCardBalance(customerCard.getCardNumber()));
+    @PostMapping("/balance")
+    public ResponseEntity<CardBalanceDto> getCardBalance(@RequestBody CardBalanceDto cardBalanceDto) {
+        return ResponseEntity.ok(service.getCardBalance(cardBalanceDto));
     }
 }
