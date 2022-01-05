@@ -13,12 +13,12 @@ public class CustomerCardRest {
     @Autowired
     private CustomerCardService service;
 
-    @GetMapping("/findCustomerCard")
+    @PostMapping("/findCustomerCard")
     public ResponseEntity<CustomerCardDto> findCustomerCard(@RequestBody Long cardNumber){
         return ResponseEntity.ok(service.findCustomerCard(cardNumber));
     }
 
-    @GetMapping("/validate")
+    @PostMapping("/validate")
     public ResponseEntity<CustomerCardDto> validateCard(@RequestBody CustomerCardDto customerCard){
         return ResponseEntity.ok(service.validateCard(customerCard.getCardNumber(),customerCard.getCardAuthenticationValue()));
     }

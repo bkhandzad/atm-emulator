@@ -32,7 +32,12 @@ public class CustomerCardService {
         if (entity.isPresent()) {
             customerCard.setId(entity.get().getId());
             customerCard.setCardNumber(entity.get().getCardNumber());
-            customerCard.setError(CardAuthResult.OK);
+            if (customerCard.getCardState() == CardState.USABLE)
+                customerCard.setError(CardAuthResult.OK);
+            else if (customerCard.getCardState() == CardState.BLOCK)
+                customerCard.setError(CardAuthResult.BLOKE_CARD);
+            else if (customerCard.getCardState() == CardState.READY)
+                customerCard.setError(CardAuthResult.CARD_NEED_PIN);
         }
         else {
             customerCard.setError(CardAuthResult.CARD_NOT_FOUND);

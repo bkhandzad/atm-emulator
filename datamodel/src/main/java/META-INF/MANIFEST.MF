@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: jakarta.validation-api-2.0.2.jar
+
