@@ -5,25 +5,26 @@ import com.energizeglobal.atmservice.action.Print;
 import com.energizeglobal.atmservice.action.WithdrawCash;
 import com.energizeglobal.atmservice.common.CurrentCardSate;
 import com.energizeglobal.atmservice.dto.CurrentCard;
-import com.energizeglobal.atmservice.repository.CardTransaction;
+import com.energizeglobal.atmservice.service.CurrentTransactionService;
 import com.energizeglobal.datamodel.CardTransactionDto;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 @RestController(value = "/transaction")
-public class CurrentTransaction {
-    private static Long currentTransactionID = -1L;
+public class CurrentTransactionRest {
 
-    private Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final Logger logger = LoggerFactory.getLogger(CurrentTransactionRest.class);
 
     @Autowired
-    CardTransaction cardTransaction;
+    @Qualifier(CurrentTransactionService.BEAN_NAME)
+    CurrentTransactionService service;
 
     @HystrixCommand(fallbackMethod = "fallbackTransaction", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
@@ -31,16 +32,7 @@ public class CurrentTransaction {
     @PostMapping(value = "/withDraw")
     public String withDraw(@RequestBody BigDecimal amount) {
         try {
-            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
-                return "Please Insert Card";
-            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
-                return "Please enter card authentication";
-            currentTransactionID = -1L;
-            CardTransactionDto transaction = cardTransaction.withdrawTransaction(amount);
-            currentTransactionID = transaction.getId();
-            WithdrawCash.withdrawCash(amount);
-            Print.printTransaction(transaction);
-            return "OK";
+            return service.withDraw(amount);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return "Server not respond";
@@ -53,16 +45,7 @@ public class CurrentTransaction {
     @PostMapping(value = "/deposit")
     public String deposit(@RequestBody BigDecimal amount) {
         try {
-            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
-                return "Please Insert Card";
-            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
-                return "Please enter card authentication";
-            currentTransactionID = -1L;
-            CardTransactionDto transaction = cardTransaction.depositTransaction(amount);
-            currentTransactionID = transaction.getId();
-            DepositCash.depositCash(amount);
-            Print.printTransaction(transaction);
-            return "OK";
+            return service.deposit(amount);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return "Server not respond";
@@ -70,8 +53,10 @@ public class CurrentTransaction {
     }
 
     public void fallbackTransaction() {
-        if (currentTransactionID > 0) {
-            cardTransaction.removeTransaction(currentTransactionID);
+        try {
+            service.removeTransaction();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 }

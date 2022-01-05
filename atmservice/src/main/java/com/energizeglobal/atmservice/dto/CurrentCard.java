@@ -8,6 +8,8 @@ public class CurrentCard {
 
     private static CurrentCard INSTANCE;
 
+    private Long currentTransactionID = -1L;
+
     private CustomerCardDto currentCard;
 
     private CardDataRequestDto cardDataRequestDto;
@@ -35,6 +37,14 @@ public class CurrentCard {
 
     public void setCurrentCardSate(CurrentCardSate currentCardSate) {
         this.currentCardSate = currentCardSate;
+    }
+
+    public Long getCurrentTransactionID() {
+        return currentTransactionID;
+    }
+
+    public void setCurrentTransactionID(Long currentTransactionID) {
+        this.currentTransactionID = currentTransactionID;
     }
 
     public void newCard() {
