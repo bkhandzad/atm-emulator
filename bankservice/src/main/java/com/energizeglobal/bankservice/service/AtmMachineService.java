@@ -1,11 +1,10 @@
 package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.AtmMachineEntity;
-import com.energizeglobal.bankservice.dto.AtmMachineDto;
 import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.AtmMachineRepository;
 import com.energizeglobal.bankservice.transformer.AtmMachineTransformer;
-import com.energizeglobal.datamodel.AtmMachine;
+import com.energizeglobal.datamodel.AtmMachineDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +34,9 @@ public class AtmMachineService {
         return atmMachineEntities.stream().map(entity -> atmMachineTransformer.createValueObjectFromEntity(entity)).collect(Collectors.toList());
     }
 
-    public AtmMachine login(String userName, String passWord){
+    public AtmMachineDto login(String userName, String passWord){
         AtmMachineEntity atmMachineEntity = atmMachineRepository.findAtmMachineEntitiesByUsernameAndPassword(userName,passWord).orElseThrow(() ->new ServiceException("User " +userName+" Password "+passWord+" Not found"));
-        AtmMachine atmMachine = new AtmMachine(atmMachineEntity.getId(),atmMachineEntity.getUsername(),atmMachineEntity.getPassword());
+        AtmMachineDto atmMachine = new AtmMachineDto(atmMachineEntity.getId(),atmMachineEntity.getUsername(),atmMachineEntity.getPassword());
         return atmMachine;
     }
 

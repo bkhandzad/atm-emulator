@@ -1,4 +1,4 @@
-package com.energizeglobal.datamodel.type;
+package com.energizeglobal.datamodel.types;
 
 public enum CardAuthResult {
     OK,

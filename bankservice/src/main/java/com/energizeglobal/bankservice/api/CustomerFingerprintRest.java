@@ -1,6 +1,6 @@
 package com.energizeglobal.bankservice.api;
 
-import com.energizeglobal.bankservice.dto.CustomerFingerprintDto;
+import com.energizeglobal.datamodel.CustomerFingerprintDto;
 import com.energizeglobal.bankservice.service.CustomerFingerprintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

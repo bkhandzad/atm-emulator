@@ -1,7 +1,8 @@
 package com.energizeglobal.bankservice.api;
 
-import com.energizeglobal.bankservice.dto.CustomerDto;
+import com.energizeglobal.datamodel.CustomerCardDto;
 import com.energizeglobal.bankservice.service.CustomerService;
+import com.energizeglobal.datamodel.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

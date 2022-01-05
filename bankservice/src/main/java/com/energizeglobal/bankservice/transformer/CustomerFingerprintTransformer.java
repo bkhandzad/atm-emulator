@@ -1,7 +1,7 @@
 package com.energizeglobal.bankservice.transformer;
 
 import com.energizeglobal.bankservice.domain.CustomerFingerprintEntity;
-import com.energizeglobal.bankservice.dto.CustomerFingerprintDto;
+import com.energizeglobal.datamodel.CustomerFingerprintDto;
 import com.energizeglobal.infrastructure.AbstractTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

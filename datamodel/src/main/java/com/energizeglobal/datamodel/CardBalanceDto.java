@@ -1,17 +1,18 @@
 package com.energizeglobal.datamodel;
 
+
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class CardBalanceVo {
+public class CardBalanceDto {
     private BigDecimal balance;
     private Long cardNumber;
 
-    public CardBalanceVo() {
+    public CardBalanceDto() {
     }
 
-    public CardBalanceVo(BigDecimal balance, Long cardNumber) {
+    public CardBalanceDto(BigDecimal balance, Long cardNumber) {
         this.balance = balance;
         this.cardNumber = cardNumber;
     }
@@ -43,7 +44,7 @@ public class CardBalanceVo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CardBalanceVo result = (CardBalanceVo) o;
+        CardBalanceDto result = (CardBalanceDto) o;
         return Objects.equals(balance, result.balance)  && Objects.equals(cardNumber, result.cardNumber);
     }
 

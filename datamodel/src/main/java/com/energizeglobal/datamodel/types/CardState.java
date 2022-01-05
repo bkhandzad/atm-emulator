@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.domain.types;
+package com.energizeglobal.datamodel.types;
 
 import com.energizeglobal.infrastructure.AbstractEnumConverter;
 import com.energizeglobal.infrastructure.Convertible;

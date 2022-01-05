@@ -1,13 +1,13 @@
 package com.energizeglobal.atmservice.dto;
 
-import com.energizeglobal.datamodel.AtmMachine;
+import com.energizeglobal.datamodel.AtmMachineDto;
 
 public class LocalAtmMachine {
 
     private static LocalAtmMachine INSTANCE;
 
     private LocalAtmMachine() {
-        localAtm = new AtmMachine();
+        localAtm = new AtmMachineDto();
     }
 
     public static LocalAtmMachine getINSTANCE(){
@@ -21,9 +21,9 @@ public class LocalAtmMachine {
         return INSTANCE;
     }
 
-    private AtmMachine localAtm;
+    private AtmMachineDto localAtm;
 
-    public AtmMachine getLocalAtm() {
+    public AtmMachineDto getLocalAtm() {
         return localAtm;
     }
 }

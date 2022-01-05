@@ -16,12 +16,12 @@ public class CardTransactionRest {
     private CardTransactionService service;
 
     @PostMapping("/deposit")
-    public ResponseEntity<Transaction> deposit(@RequestBody Transaction transaction) {
+    public ResponseEntity<CardTransactionDto> deposit(@RequestBody CardTransactionDto transaction) {
         return ResponseEntity.ok(service.deposit(transaction));
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<Transaction> withdraw(@RequestBody Transaction transaction) {
+    public ResponseEntity<CardTransactionDto> withdraw(@RequestBody CardTransactionDto transaction) {
         return ResponseEntity.ok(service.withdraw(transaction));
     }
 
@@ -31,12 +31,12 @@ public class CardTransactionRest {
     }
 
     @GetMapping("/transactions")
-    public ResponseEntity<List<Transaction>> getCardTransactions(@RequestBody TransactionsRequest transactionsRequest) {
+    public ResponseEntity<List<CardTransactionDto>> getCardTransactions(@RequestBody TransactionsRequest transactionsRequest) {
         return ResponseEntity.ok(service.getLastTransactions(transactionsRequest.getCardNumber(), transactionsRequest.getCount()));
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<CardBalanceVo> getCardBalance(@RequestBody CustomerCard customerCard) {
+    public ResponseEntity<CardBalanceDto> getCardBalance(@RequestBody CustomerCardDto customerCard) {
         return ResponseEntity.ok(service.getCardBalance(customerCard.getCardNumber()));
     }
 }

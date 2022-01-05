@@ -1,8 +1,8 @@
 package com.energizeglobal.bankservice;
 
 import com.energizeglobal.bankservice.domain.AtmMachineEntity;
-import com.energizeglobal.bankservice.dto.AtmMachineDto;
 import com.energizeglobal.bankservice.service.AtmMachineService;
+import com.energizeglobal.datamodel.AtmMachineDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

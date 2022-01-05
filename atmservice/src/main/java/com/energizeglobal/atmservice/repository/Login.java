@@ -2,7 +2,7 @@ package com.energizeglobal.atmservice.repository;
 
 import com.energizeglobal.atmservice.common.PropertiesCache;
 import com.energizeglobal.atmservice.dto.LocalAtmMachine;
-import com.energizeglobal.datamodel.AtmMachine;
+import com.energizeglobal.datamodel.AtmMachineDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -18,15 +18,15 @@ public class Login {
 
     public static void login(){
         try {
-            LocalAtmMachine.getINSTANCE().getLocalAtm().setUsername(PropertiesCache.getInstance().getProperty("atm.username"));
-            LocalAtmMachine.getINSTANCE().getLocalAtm().setPassword(PropertiesCache.getInstance().getProperty("atm.password"));
+            LocalAtmMachine.getINSTANCE().getLocalAtm().setUserName(PropertiesCache.getInstance().getProperty("atm.username"));
+            LocalAtmMachine.getINSTANCE().getLocalAtm().setPassWord(PropertiesCache.getInstance().getProperty("atm.password"));
 
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            HttpEntity<AtmMachine> atmMachineHttpEntity = new HttpEntity<>(LocalAtmMachine.getINSTANCE().getLocalAtm(), headers);
-            ResponseEntity<AtmMachine> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.login"), atmMachineHttpEntity, AtmMachine.class);
+            HttpEntity<AtmMachineDto> atmMachineHttpEntity = new HttpEntity<>(LocalAtmMachine.getINSTANCE().getLocalAtm(), headers);
+            ResponseEntity<AtmMachineDto> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.login"), atmMachineHttpEntity, AtmMachineDto.class);
             LocalAtmMachine.getINSTANCE().getLocalAtm().setId(responseEntity.getBody().getId());
             logger.info("Login successful");
             logger.info("Atm ID = " + LocalAtmMachine.getINSTANCE().getLocalAtm().getId());

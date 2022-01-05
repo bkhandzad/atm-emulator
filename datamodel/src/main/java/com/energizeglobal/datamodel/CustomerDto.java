@@ -1,6 +1,6 @@
-package com.energizeglobal.bankservice.dto;
+package com.energizeglobal.datamodel;
 
-import com.energizeglobal.bankservice.domain.types.CustomerType;
+import com.energizeglobal.datamodel.types.CustomerType;
 import com.energizeglobal.infrastructure.AbstractValueObject;
 
 import java.time.LocalDateTime;

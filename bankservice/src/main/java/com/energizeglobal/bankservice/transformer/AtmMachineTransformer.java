@@ -1,12 +1,12 @@
 package com.energizeglobal.bankservice.transformer;
 
 import com.energizeglobal.bankservice.domain.AtmMachineEntity;
-import com.energizeglobal.bankservice.dto.AtmMachineDto;
+import com.energizeglobal.datamodel.AtmMachineDto;
 import com.energizeglobal.infrastructure.AbstractTransformer;
 import org.springframework.stereotype.Component;
 
 @Component(AtmMachineTransformer.BEAN_NAME)
-public class AtmMachineTransformer extends AbstractTransformer<AtmMachineEntity,AtmMachineDto> {
+public class AtmMachineTransformer extends AbstractTransformer<AtmMachineEntity, AtmMachineDto> {
     public static final String BEAN_NAME = "atmMachineTransformer";
 
     @Override

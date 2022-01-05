@@ -1,9 +1,7 @@
 package com.energizeglobal.bankservice.api;
 
-import com.energizeglobal.bankservice.domain.AtmMachineEntity;
-import com.energizeglobal.bankservice.dto.AtmMachineDto;
 import com.energizeglobal.bankservice.service.AtmMachineService;
-import com.energizeglobal.datamodel.AtmMachine;
+import com.energizeglobal.datamodel.AtmMachineDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +21,8 @@ public class AtmMachineRest {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AtmMachine> login(@RequestBody AtmMachine atmMachine){
-        return ResponseEntity.ok(service.login(atmMachine.getUsername(),atmMachine.getPassword()));
+    public ResponseEntity<AtmMachineDto> login(@RequestBody AtmMachineDto atmMachine){
+        return ResponseEntity.ok(service.login(atmMachine.getUserName(),atmMachine.getPassWord()));
     }
 
 

@@ -1,7 +1,7 @@
 package com.energizeglobal.bankservice.domain;
 
-import com.energizeglobal.bankservice.domain.types.AuthMethod;
-import com.energizeglobal.bankservice.domain.types.CardState;
+import com.energizeglobal.datamodel.types.AuthMethod;
+import com.energizeglobal.datamodel.types.CardState;
 import com.energizeglobal.infrastructure.AbstractPersistence;
 
 import javax.persistence.*;

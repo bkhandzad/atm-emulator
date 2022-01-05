@@ -1,13 +1,13 @@
 package com.energizeglobal.atmservice.dto;
 
-import com.energizeglobal.datamodel.CustomerCard;
+import com.energizeglobal.datamodel.CustomerCardDto;
 
 public class CurrentCard {
 
     private static CurrentCard INSTANCE;
 
     private CurrentCard(){
-        currentCard  = new CustomerCard();
+        currentCard  = new CustomerCardDto();
     }
 
     public static CurrentCard getINSTANCE(){
@@ -21,17 +21,17 @@ public class CurrentCard {
         return INSTANCE;
     }
 
-    CustomerCard currentCard;
+    CustomerCardDto currentCard;
 
     public void newCard(){
-        currentCard=new CustomerCard();
+        currentCard=new CustomerCardDto();
     }
 
-    public CustomerCard getCurrentCard() {
+    public CustomerCardDto getCurrentCard() {
         return currentCard;
     }
 
-    public void setCurrentCard(CustomerCard currentCard) {
+    public void setCurrentCard(CustomerCardDto currentCard) {
         this.currentCard = currentCard;
     }
 }

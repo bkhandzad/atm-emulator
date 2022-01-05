@@ -1,13 +1,13 @@
 package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.bankservice.domain.types.AuthMethod;
-import com.energizeglobal.bankservice.domain.types.CardState;
+import com.energizeglobal.datamodel.CustomerCardDto;
+import com.energizeglobal.datamodel.types.AuthMethod;
+import com.energizeglobal.datamodel.types.CardState;
 import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.CustomerCardRepository;
 import com.energizeglobal.bankservice.transformer.CustomerCardTransformer;
-import com.energizeglobal.datamodel.CustomerCard;
-import com.energizeglobal.datamodel.type.CardAuthResult;
+import com.energizeglobal.datamodel.types.CardAuthResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +26,8 @@ public class CustomerCardService {
     @Autowired
     private CustomerFingerprintService customerFingerprintService;
 
-    public CustomerCard findCustomerCard(Long cardNumber){
-        CustomerCard customerCard = new CustomerCard();
+    public CustomerCardDto findCustomerCard(Long cardNumber){
+        CustomerCardDto customerCard = new CustomerCardDto();
         Optional<CustomerCardEntity> entity = customerCardRepository.findByCardNumber(cardNumber);
         if (entity.isPresent()) {
             customerCard.setId(entity.get().getId());
@@ -44,20 +44,20 @@ public class CustomerCardService {
         return customerCardRepository.findByCardNumber(cardNumber).orElseThrow(() ->new ServiceException("Invalid Card Number "+cardNumber+" Not found"));
     }
 
-    public CustomerCard validateCard(Long cardNumber,String auth) {
+    public CustomerCardDto validateCard(Long cardNumber,String auth) {
         Optional<CustomerCardEntity> entity = customerCardRepository.findByCardNumber(cardNumber);
-        CustomerCard returnValue = new CustomerCard();
+        CustomerCardDto returnValue = new CustomerCardDto();
         if (entity.isPresent()) {
             if (entity.get().getCardState().equals(CardState.READY)) {
                 if (entity.get().getAuthMethod().equals(AuthMethod.PIN) && entity.get().getCardPIN().equals(Long.parseLong(auth))) {
                     returnValue.setId(entity.get().getId());
                     returnValue.setCardNumber(entity.get().getCardNumber());
-                    returnValue.setCardAuthentication(entity.get().getAuthMethod().getValue());
+                    returnValue.setAuthMethod(entity.get().getAuthMethod());
                     returnValue.setError(CardAuthResult.OK);
                 } else if (entity.get().getAuthMethod() == AuthMethod.FINGERPRINT && customerFingerprintService.findFingerprint(entity.get().getCustomerEntity().getId()).getFingerprint().equals(auth)) {
                     returnValue.setId(entity.get().getId());
                     returnValue.setCardNumber(entity.get().getCardNumber());
-                    returnValue.setCardAuthentication(entity.get().getAuthMethod().getValue());
+                    returnValue.setAuthMethod(entity.get().getAuthMethod());
                     returnValue.setError(CardAuthResult.OK);
                 } else {
                     returnValue.setError(CardAuthResult.INVALID_AUTH);

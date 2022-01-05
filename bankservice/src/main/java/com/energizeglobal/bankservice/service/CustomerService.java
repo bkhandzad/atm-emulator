@@ -1,6 +1,6 @@
 package com.energizeglobal.bankservice.service;
 
-import com.energizeglobal.bankservice.dto.CustomerDto;
+import com.energizeglobal.datamodel.CustomerDto;
 import com.energizeglobal.infrastructure.exceptin.ServiceException;
 import com.energizeglobal.bankservice.repository.CustomerRepository;
 import com.energizeglobal.bankservice.transformer.CustomerTransformer;

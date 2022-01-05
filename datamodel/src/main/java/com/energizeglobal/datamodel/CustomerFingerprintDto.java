@@ -1,4 +1,4 @@
-package com.energizeglobal.bankservice.dto;
+package com.energizeglobal.datamodel;
 
 import com.energizeglobal.infrastructure.AbstractValueObject;
 
@@ -11,7 +11,7 @@ public class CustomerFingerprintDto extends AbstractValueObject {
     public CustomerFingerprintDto() {
     }
 
-    public CustomerFingerprintDto(Long id, CustomerDto customerDto, String fingerprint, LocalDateTime insertDate, LocalDateTime modifyDate,Integer version) {
+    public CustomerFingerprintDto(Long id, CustomerDto customerDto, String fingerprint, LocalDateTime insertDate, LocalDateTime modifyDate, Integer version) {
         this.id = id;
         this.customerDto = customerDto;
         this.fingerprint = fingerprint;

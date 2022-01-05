@@ -1,6 +1,6 @@
 package com.energizeglobal.bankservice.domain;
 
-import com.energizeglobal.bankservice.domain.types.CustomerType;
+import com.energizeglobal.datamodel.types.CustomerType;
 import com.energizeglobal.infrastructure.AbstractPersistence;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
 package com.energizeglobal.bankservice.transformer;
 
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.bankservice.dto.CustomerCardDto;
+import com.energizeglobal.datamodel.CustomerCardDto;
 import com.energizeglobal.infrastructure.AbstractTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,6 @@ public class CustomerCardTransformer extends AbstractTransformer<CustomerCardEnt
         output.setCardState(input.getCardState());
         output.setCardNumber(input.getCardNumber());
         output.setAccountNumber(input.getAccountNumber());
-        output.setCardPIN(input.getCardPIN());
         output.setCvv2(input.getCvv2());
         output.setIssueDate(input.getIssueDate());
         output.setExpireDate(input.getExpireDate());
@@ -33,7 +32,6 @@ public class CustomerCardTransformer extends AbstractTransformer<CustomerCardEnt
         output.setCardState(input.getCardState());
         output.setCardNumber(input.getCardNumber());
         output.setAccountNumber(input.getAccountNumber());
-        output.setCardPIN(input.getCardPIN());
         output.setCvv2(input.getCvv2());
         output.setIssueDate(input.getIssueDate());
         output.setExpireDate(input.getExpireDate());

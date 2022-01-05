@@ -4,20 +4,13 @@ import com.energizeglobal.atmservice.common.PropertiesCache;
 import com.energizeglobal.atmservice.common.CustomHttpEntity;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.dto.LocalAtmMachine;
-import com.energizeglobal.datamodel.AtmMachine;
-import com.energizeglobal.datamodel.CustomerCard;
-import com.energizeglobal.datamodel.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import com.energizeglobal.datamodel.CardTransactionDto;
+import com.energizeglobal.datamodel.CustomerCardDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 
 @Service(CardTransaction.BEAN_NAME)
 public class CardTransaction {
@@ -26,8 +19,8 @@ public class CardTransaction {
     public String validateCard(Long cardNumber){
         RestTemplate restTemplate = new RestTemplate();
         CurrentCard.getINSTANCE().newCard();
-        CustomHttpEntity<CustomerCard> atmMachine = new CustomHttpEntity<>();
-        ResponseEntity<CustomerCard> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.find"), atmMachine, CustomerCard.class);
+        CustomHttpEntity<CustomerCardDto> atmMachine = new CustomHttpEntity<>();
+        ResponseEntity<CustomerCardDto> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.find"), atmMachine, CustomerCardDto.class);
         CurrentCard.getINSTANCE().getCurrentCard().setId(responseEntity.getBody().getId());
         CurrentCard.getINSTANCE().getCurrentCard().setCardNumber(responseEntity.getBody().getCardNumber());
         return responseEntity.getBody().getError().toString();
@@ -36,25 +29,25 @@ public class CardTransaction {
     public String authenticateCard(String authentication){
         if (CurrentCard.getINSTANCE().getCurrentCard().getCardNumber().toString().length() < 10)
             return "Please Insert Card";
-        CurrentCard.getINSTANCE().getCurrentCard().setCardAuthentication(authentication);
+        CurrentCard.getINSTANCE().getCurrentCard().setCardAuthenticationValue(authentication);
         RestTemplate restTemplate = new RestTemplate();
-        CustomHttpEntity<CustomerCard> entity = new CustomHttpEntity<>();
-        ResponseEntity<CustomerCard> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.login"), entity.getHttpEntity(CurrentCard.getINSTANCE().getCurrentCard()), CustomerCard.class);
+        CustomHttpEntity<CustomerCardDto> entity = new CustomHttpEntity<>();
+        ResponseEntity<CustomerCardDto> responseEntity = restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.login"), entity.getHttpEntity(CurrentCard.getINSTANCE().getCurrentCard()), CustomerCardDto.class);
         return responseEntity.getBody().getError().toString();
     }
 
-    public Transaction depositTransaction(BigDecimal amount) {
+    public CardTransactionDto depositTransaction(BigDecimal amount) {
         RestTemplate restTemplate = new RestTemplate();
-        CustomHttpEntity<Transaction> entity = new CustomHttpEntity<>();
-        Transaction transaction = getTransaction(amount);
-        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.deposit"), entity.getHttpEntity(transaction), Transaction.class).getBody();
+        CustomHttpEntity<CardTransactionDto> entity = new CustomHttpEntity<>();
+        CardTransactionDto transaction = getTransaction(amount);
+        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.deposit"), entity.getHttpEntity(transaction), CardTransactionDto.class).getBody();
     }
 
-    public Transaction withdrawTransaction(BigDecimal amount) {
+    public CardTransactionDto withdrawTransaction(BigDecimal amount) {
         RestTemplate restTemplate = new RestTemplate();
-        CustomHttpEntity<Transaction> entity = new CustomHttpEntity<>();
-        Transaction transaction = getTransaction(amount);
-        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.withdraw"), entity.getHttpEntity(transaction), Transaction.class).getBody();
+        CustomHttpEntity<CardTransactionDto> entity = new CustomHttpEntity<>();
+        CardTransactionDto transaction = getTransaction(amount);
+        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.withdraw"), entity.getHttpEntity(transaction), CardTransactionDto.class).getBody();
     }
 
     public void removeTransaction(Long id){
@@ -63,11 +56,11 @@ public class CardTransaction {
         restTemplate.delete(PropertiesCache.getInstance().getProperty("service.withdraw"),entity.getHttpEntity(id));
     }
 
-    public Transaction getTransaction(BigDecimal amount){
-        Transaction transaction = new Transaction();
-        transaction.setAmount(amount);
-        transaction.setAtmMachine(LocalAtmMachine.getINSTANCE().getLocalAtm());
-        transaction.setCardNumber(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber());
+    public CardTransactionDto getTransaction(BigDecimal amount){
+        CardTransactionDto transaction = new CardTransactionDto();
+        transaction.setTransactionAmount(amount);
+        transaction.setAtmMachineDto(LocalAtmMachine.getINSTANCE().getLocalAtm());
+        transaction.getCustomerCardDto().setCardNumber(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber());
         return transaction;
     }
 }

@@ -4,7 +4,7 @@ import com.energizeglobal.atmservice.action.Print;
 import com.energizeglobal.atmservice.action.WithdrawCash;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.repository.CardTransaction;
-import com.energizeglobal.datamodel.Transaction;
+import com.energizeglobal.datamodel.CardTransactionDto;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class CurrentTransaction {
             if (CurrentCard.getINSTANCE().getCurrentCard().getCardNumber().toString().length() < 10)
                 return "Please Insert Card";
             currentTransactionID = -1L;
-            Transaction transaction = cardTransaction.withdrawTransaction(amount);
+            CardTransactionDto transaction = cardTransaction.withdrawTransaction(amount);
             currentTransactionID = transaction.getId();
             WithdrawCash.withdrawCash(amount);
             Print.printTransaction(transaction);
@@ -53,7 +53,7 @@ public class CurrentTransaction {
         if (CurrentCard.getINSTANCE().getCurrentCard().getCardNumber().toString().length() < 10)
             return "Please Insert Card";
         currentTransactionID = -1L;
-        Transaction transaction = cardTransaction.depositTransaction(amount);
+        CardTransactionDto transaction = cardTransaction.depositTransaction(amount);
         currentTransactionID = transaction.getId();
         WithdrawCash.withdrawCash(amount);
         Print.printTransaction(transaction);

@@ -2,7 +2,8 @@ package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.CardTransactionEntity;
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
-import com.energizeglobal.bankservice.domain.types.TransactionType;
+import com.energizeglobal.bankservice.transformer.CustomerCardTransformer;
+import com.energizeglobal.datamodel.types.TransactionType;
 import com.energizeglobal.bankservice.repository.CardTransactionRepository;
 import com.energizeglobal.bankservice.transformer.CardTransactionTransformer;
 import com.energizeglobal.datamodel.*;
@@ -30,21 +31,21 @@ public class CardTransactionService {
     @Autowired
     private CustomerCardService customerCardService;
 
-    public Transaction deposit(Transaction transaction){
-        CardTransactionEntity entity = getCardTransaction(transaction.getCardNumber(),transaction.getAtmMachine().getId(),transaction.getAmount());
+    public CardTransactionDto deposit(CardTransactionDto transaction){
+        CardTransactionEntity entity = getCardTransaction(transaction.getCardNumber(),transaction.getAtmMachineDto().getId(),transaction.getTransactionAmount());
         entity.setTransactionType(TransactionType.DEPOSIT);
         cardTransactionRepository.save(entity);
         transaction.setId(entity.getId());
-        transaction.setTransactionTime(entity.getInsertDate());
+        transaction.setInsertDate(entity.getInsertDate());
         return transaction;
     }
 
-    public Transaction withdraw(Transaction transaction){
-        CardTransactionEntity entity = getCardTransaction(transaction.getCardNumber(),transaction.getAtmMachine().getId(),transaction.getAmount());
+    public CardTransactionDto withdraw(CardTransactionDto transaction){
+        CardTransactionEntity entity = getCardTransaction(transaction.getCardNumber(),transaction.getAtmMachineDto().getId(),transaction.getTransactionAmount());
         entity.setTransactionType(TransactionType.WITHDRAW);
         cardTransactionRepository.save(entity);
         transaction.setId(entity.getId());
-        transaction.setTransactionTime(entity.getInsertDate());
+        transaction.setInsertDate(entity.getInsertDate());
         return transaction;
     }
 
@@ -57,24 +58,19 @@ public class CardTransactionService {
         return entity;
     }
 
-    public List<Transaction> getLastTransactions(Long cardNumber,Integer count) {
-        List<Transaction> transactions = new ArrayList<>();
+    public List<CardTransactionDto> getLastTransactions(Long cardNumber,Integer count) {
+        List<CardTransactionDto> transactions = new ArrayList<>();
         List<CardTransactionEntity> cardTransactionEntities = cardTransactionRepository.findAllByCustomerCardEntityOrderByInsertDate(customerCardService.findCustomerCardEntity(cardNumber));
-        for (Integer i = 0; i < Math.min(count, cardTransactionEntities.size()); i++) {
-            AtmMachine atmMachine = new AtmMachine(cardTransactionEntities.get(i).getAtmMachineEntity().getId(), cardTransactionEntities.get(i).getAtmMachineEntity().getUsername());
-            Transaction transaction = new Transaction(cardTransactionEntities.get(i).getId(), cardTransactionEntities.get(i).getTransactionAmount(),
-                    cardTransactionEntities.get(i).getCustomerCardEntity().getCardNumber(), cardTransactionEntities.get(i).getInsertDate(),
-                    cardTransactionEntities.get(i).getTransactionType().name(), atmMachine);
-            transactions.add(transaction);
-        }
+        for (Integer i = 0; i < Math.min(count, cardTransactionEntities.size()); i++)
+            transactions.add(cardTransactionTransformer.createValueObjectFromEntity(cardTransactionEntities.get(i)));
         return transactions;
     }
 
-    public CardBalanceVo getCardBalance(Long cardNumber){
+    public CardBalanceDto getCardBalance(Long cardNumber){
         CustomerCardEntity customerCardEntity = customerCardService.findCustomerCardEntity(cardNumber);
         BigDecimal balance = cardTransactionRepository.sumDepositAmount(customerCardEntity).subtract(cardTransactionRepository.sumWithdrawAmount(customerCardEntity));
-        CardBalanceVo cardBalanceVo = new CardBalanceVo(balance,customerCardEntity.getCardNumber());
-        return cardBalanceVo;
+        CardBalanceDto cardBalanceDto = new CardBalanceDto(balance,customerCardEntity.getCardNumber());
+        return cardBalanceDto;
     }
 
     public void deleteById(Long id){
