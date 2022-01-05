@@ -2,6 +2,7 @@ package com.energizeglobal.bankservice.service;
 
 import com.energizeglobal.bankservice.domain.CustomerCardEntity;
 import com.energizeglobal.datamodel.CustomerCardDto;
+import com.energizeglobal.datamodel.request.CardDataRequestDto;
 import com.energizeglobal.datamodel.types.AuthMethod;
 import com.energizeglobal.datamodel.types.CardState;
 import com.energizeglobal.infrastructure.exceptin.ServiceException;
@@ -26,12 +27,14 @@ public class CustomerCardService {
     @Autowired
     private CustomerFingerprintService customerFingerprintService;
 
-    public CustomerCardDto findCustomerCard(Long cardNumber){
-        CustomerCardDto customerCard = new CustomerCardDto();
+    public CardDataRequestDto findCustomerCard(Long cardNumber){
+        CardDataRequestDto customerCard = new CardDataRequestDto();
         Optional<CustomerCardEntity> entity = customerCardRepository.findByCardNumber(cardNumber);
         if (entity.isPresent()) {
             customerCard.setId(entity.get().getId());
             customerCard.setCardNumber(entity.get().getCardNumber());
+            customerCard.setAuthMethod(entity.get().getAuthMethod());
+            customerCard.setCardState(entity.get().getCardState());
             if (customerCard.getCardState() == CardState.USABLE)
                 customerCard.setError(CardAuthResult.OK);
             else if (customerCard.getCardState() == CardState.BLOCK)
@@ -49,20 +52,22 @@ public class CustomerCardService {
         return customerCardRepository.findByCardNumber(cardNumber).orElseThrow(() ->new ServiceException("Invalid Card Number "+cardNumber+" Not found"));
     }
 
-    public CustomerCardDto validateCard(Long cardNumber,String auth) {
+    public CardDataRequestDto validateCard(Long cardNumber, String auth) {
         Optional<CustomerCardEntity> entity = customerCardRepository.findByCardNumber(cardNumber);
-        CustomerCardDto returnValue = new CustomerCardDto();
+        CardDataRequestDto returnValue = new CardDataRequestDto();
         if (entity.isPresent()) {
-            if (entity.get().getCardState().equals(CardState.READY)) {
+            if (entity.get().getCardState().equals(CardState.USABLE)) {
                 if (entity.get().getAuthMethod().equals(AuthMethod.PIN) && entity.get().getCardPIN().equals(Long.parseLong(auth))) {
                     returnValue.setId(entity.get().getId());
                     returnValue.setCardNumber(entity.get().getCardNumber());
                     returnValue.setAuthMethod(entity.get().getAuthMethod());
+                    returnValue.setCardState(entity.get().getCardState());
                     returnValue.setError(CardAuthResult.OK);
                 } else if (entity.get().getAuthMethod() == AuthMethod.FINGERPRINT && customerFingerprintService.findFingerprint(entity.get().getCustomerEntity().getId()).getFingerprint().equals(auth)) {
                     returnValue.setId(entity.get().getId());
                     returnValue.setCardNumber(entity.get().getCardNumber());
                     returnValue.setAuthMethod(entity.get().getAuthMethod());
+                    returnValue.setCardState(entity.get().getCardState());
                     returnValue.setError(CardAuthResult.OK);
                 } else {
                     returnValue.setError(CardAuthResult.INVALID_AUTH);
@@ -72,8 +77,10 @@ public class CustomerCardService {
                     customerCardRepository.save(entity.get());
                 }
             }
-            else
+            else if (entity.get().getCardState().equals(CardState.BLOCK))
                 returnValue.setError(CardAuthResult.BLOKE_CARD);
+            else if (entity.get().getCardState().equals(CardState.READY))
+                returnValue.setError(CardAuthResult.CARD_NEED_PIN);
         }
         else
             returnValue.setError(CardAuthResult.CARD_NOT_FOUND);

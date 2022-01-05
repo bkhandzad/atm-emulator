@@ -1,21 +1,34 @@
 package com.energizeglobal.datamodel.request;
 
+import com.energizeglobal.datamodel.types.AuthMethod;
 import com.energizeglobal.datamodel.types.CardAuthResult;
+import com.energizeglobal.datamodel.types.CardState;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class CardDataRequestDto {
     private Long id;
+    private Long cardNumber;
     private String cardAuthenticationValue;
     private CardAuthResult error;
+    private AuthMethod authMethod;
+    private CardState cardState;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(Long cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public String getCardAuthenticationValue() {
@@ -34,12 +47,31 @@ public class CardDataRequestDto {
         this.error = error;
     }
 
+    public AuthMethod getAuthMethod() {
+        return authMethod;
+    }
+
+    public void setAuthMethod(AuthMethod authMethod) {
+        this.authMethod = authMethod;
+    }
+
+    public CardState getCardState() {
+        return cardState;
+    }
+
+    public void setCardState(CardState cardState) {
+        this.cardState = cardState;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", "[", "]")
                 .add("id='" + id + "'")
+                .add("cardNumber='" + cardNumber + "'")
                 .add("cardAuthenticationValue='" + cardAuthenticationValue + "'")
                 .add("error='" + error + "'")
+                .add("cardState='" + cardState.toString() + "'")
+                .add("authMethod='" + authMethod.toString() + "'")
                 .toString();
     }
 
@@ -48,11 +80,11 @@ public class CardDataRequestDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardDataRequestDto that = (CardDataRequestDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(cardAuthenticationValue, that.cardAuthenticationValue) && error == that.error;
+        return id.equals(that.id) && cardNumber.equals(that.cardNumber) && cardAuthenticationValue.equals(that.cardAuthenticationValue) && error == that.error && authMethod == that.authMethod && cardState == that.cardState;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cardAuthenticationValue, error);
+        return Objects.hash(id, cardNumber, cardAuthenticationValue, error, authMethod, cardState);
     }
 }

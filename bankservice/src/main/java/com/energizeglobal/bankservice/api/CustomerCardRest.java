@@ -2,6 +2,7 @@ package com.energizeglobal.bankservice.api;
 
 import com.energizeglobal.bankservice.service.CustomerCardService;
 import com.energizeglobal.datamodel.CustomerCardDto;
+import com.energizeglobal.datamodel.request.CardDataRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,12 @@ public class CustomerCardRest {
     private CustomerCardService service;
 
     @PostMapping("/findCustomerCard")
-    public ResponseEntity<CustomerCardDto> findCustomerCard(@RequestBody Long cardNumber){
-        return ResponseEntity.ok(service.findCustomerCard(cardNumber));
+    public ResponseEntity<CardDataRequestDto> findCustomerCard(@RequestBody CardDataRequestDto customerCard) {
+        return ResponseEntity.ok(service.findCustomerCard(customerCard.getCardNumber()));
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<CustomerCardDto> validateCard(@RequestBody CustomerCardDto customerCard){
-        return ResponseEntity.ok(service.validateCard(customerCard.getCardNumber(),customerCard.getCardAuthenticationValue()));
+    public ResponseEntity<CardDataRequestDto> validateCard(@RequestBody CardDataRequestDto customerCard) {
+        return ResponseEntity.ok(service.validateCard(customerCard.getCardNumber(), customerCard.getCardAuthenticationValue()));
     }
 }
