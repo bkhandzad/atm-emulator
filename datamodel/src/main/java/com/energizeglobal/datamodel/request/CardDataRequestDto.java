@@ -15,6 +15,27 @@ public class CardDataRequestDto {
     private AuthMethod authMethod;
     private CardState cardState;
 
+    public CardDataRequestDto() {
+    }
+
+    public CardDataRequestDto(Long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public CardDataRequestDto(Long cardNumber, String cardAuthenticationValue) {
+        this.cardNumber = cardNumber;
+        this.cardAuthenticationValue = cardAuthenticationValue;
+    }
+
+    public CardDataRequestDto(Long id, Long cardNumber, String cardAuthenticationValue, CardAuthResult error, AuthMethod authMethod, CardState cardState) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.cardAuthenticationValue = cardAuthenticationValue;
+        this.error = error;
+        this.authMethod = authMethod;
+        this.cardState = cardState;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

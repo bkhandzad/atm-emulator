@@ -1,7 +1,9 @@
 package com.energizeglobal.atmservice.api;
 
+import com.energizeglobal.atmservice.action.DepositCash;
 import com.energizeglobal.atmservice.action.Print;
 import com.energizeglobal.atmservice.action.WithdrawCash;
+import com.energizeglobal.atmservice.common.CurrentCardSate;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.repository.CardTransaction;
 import com.energizeglobal.datamodel.CardTransactionDto;
@@ -27,18 +29,19 @@ public class CurrentTransaction {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
     @PostMapping(value = "/withDraw")
-    public String withDraw(@RequestBody BigDecimal amount){
+    public String withDraw(@RequestBody BigDecimal amount) {
         try {
-            if (CurrentCard.getINSTANCE().getCurrentCard().getCardNumber().toString().length() < 10)
+            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
                 return "Please Insert Card";
+            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
+                return "Please enter card authentication";
             currentTransactionID = -1L;
             CardTransactionDto transaction = cardTransaction.withdrawTransaction(amount);
             currentTransactionID = transaction.getId();
             WithdrawCash.withdrawCash(amount);
             Print.printTransaction(transaction);
             return "OK";
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
             return "Server not respond";
         }
@@ -48,24 +51,25 @@ public class CurrentTransaction {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
     @PostMapping(value = "/deposit")
-    public String deposit(@RequestBody BigDecimal amount){
+    public String deposit(@RequestBody BigDecimal amount) {
         try {
-        if (CurrentCard.getINSTANCE().getCurrentCard().getCardNumber().toString().length() < 10)
-            return "Please Insert Card";
-        currentTransactionID = -1L;
-        CardTransactionDto transaction = cardTransaction.depositTransaction(amount);
-        currentTransactionID = transaction.getId();
-        WithdrawCash.withdrawCash(amount);
-        Print.printTransaction(transaction);
-        return "OK";
-        }
-        catch (Exception e){
+            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
+                return "Please Insert Card";
+            if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
+                return "Please enter card authentication";
+            currentTransactionID = -1L;
+            CardTransactionDto transaction = cardTransaction.depositTransaction(amount);
+            currentTransactionID = transaction.getId();
+            DepositCash.depositCash(amount);
+            Print.printTransaction(transaction);
+            return "OK";
+        } catch (Exception e) {
             logger.error(e.getMessage());
             return "Server not respond";
         }
     }
 
-    public void fallbackTransaction(){
+    public void fallbackTransaction() {
         if (currentTransactionID > 0) {
             cardTransaction.removeTransaction(currentTransactionID);
         }

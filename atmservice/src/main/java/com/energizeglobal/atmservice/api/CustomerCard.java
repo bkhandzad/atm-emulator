@@ -1,5 +1,6 @@
 package com.energizeglobal.atmservice.api;
 
+import com.energizeglobal.atmservice.common.CurrentCardSate;
 import com.energizeglobal.atmservice.dto.CurrentCard;
 import com.energizeglobal.atmservice.repository.CardTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ public class CustomerCard {
     CardTransaction transaction;
 
     @GetMapping(value = "/validateCard")
-    public String validateCard(@RequestBody Long cardNumber){
+    public String validateCard(Long cardNumber){
         return transaction.validateCard(cardNumber);
     }
 
     @GetMapping(value = "/authenticateCard")
-    public String authenticateCard(@RequestBody String authentication){
+    public String authenticateCard(String authentication){
+        if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
+            return "Please Insert Card";
         return transaction.authenticateCard(authentication);
     }
 }

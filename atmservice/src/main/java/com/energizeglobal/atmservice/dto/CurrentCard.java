@@ -1,19 +1,27 @@
 package com.energizeglobal.atmservice.dto;
 
+import com.energizeglobal.atmservice.common.CurrentCardSate;
 import com.energizeglobal.datamodel.CustomerCardDto;
+import com.energizeglobal.datamodel.request.CardDataRequestDto;
 
 public class CurrentCard {
 
     private static CurrentCard INSTANCE;
 
-    private CurrentCard(){
-        currentCard  = new CustomerCardDto();
+    private CustomerCardDto currentCard;
+
+    private CardDataRequestDto cardDataRequestDto;
+
+    private CurrentCardSate currentCardSate;
+
+    private CurrentCard() {
+        newCard();
     }
 
-    public static CurrentCard getINSTANCE(){
-        if (INSTANCE == null){
-            synchronized (CurrentCard.class){
-                if(INSTANCE == null){
+    public static CurrentCard getINSTANCE() {
+        if (INSTANCE == null) {
+            synchronized (CurrentCard.class) {
+                if (INSTANCE == null) {
                     INSTANCE = new CurrentCard();
                 }
             }
@@ -21,10 +29,18 @@ public class CurrentCard {
         return INSTANCE;
     }
 
-    CustomerCardDto currentCard;
+    public CurrentCardSate getCurrentCardSate() {
+        return currentCardSate;
+    }
 
-    public void newCard(){
-        currentCard=new CustomerCardDto();
+    public void setCurrentCardSate(CurrentCardSate currentCardSate) {
+        this.currentCardSate = currentCardSate;
+    }
+
+    public void newCard() {
+        currentCard = new CustomerCardDto();
+        cardDataRequestDto = new CardDataRequestDto();
+        currentCardSate = CurrentCardSate.NONE;
     }
 
     public CustomerCardDto getCurrentCard() {
@@ -33,5 +49,27 @@ public class CurrentCard {
 
     public void setCurrentCard(CustomerCardDto currentCard) {
         this.currentCard = currentCard;
+    }
+
+    public CardDataRequestDto getCardDataRequestDto() {
+        return cardDataRequestDto;
+    }
+
+    public void setCardDataRequestDto(CardDataRequestDto cardDataRequestDto) {
+        this.cardDataRequestDto = cardDataRequestDto;
+    }
+
+    public void setId(Long id) {
+        this.currentCard.setId(id);
+        this.cardDataRequestDto.setId(id);
+    }
+
+    public void setCardNumber(Long cardNumber) {
+        this.currentCard.setCardNumber(cardNumber);
+        this.cardDataRequestDto.setCardNumber(cardNumber);
+    }
+
+    public void setCardAuthenticationValue(String cardAuthenticationValue) {
+        this.cardDataRequestDto.setCardAuthenticationValue(cardAuthenticationValue);
     }
 }
