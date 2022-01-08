@@ -2,8 +2,8 @@ FROM openjdk
 
 MAINTAINER bkhandzad@gmail.com
 
-EXPOSE 8082
+EXPOSE 8083
 
-COPY /project/bankservice-0.0.1.jar /bankservice/bankservice-0.0.1.jar
+COPY --from=atm-emulator_atm_emulator /prj/bankservice-0.0.1.jar /bankservice/bankservice-0.0.1.jar
 
 CMD java -jar /bankservice/bankservice-0.0.1.jar
