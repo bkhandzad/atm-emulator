@@ -8,4 +8,5 @@ At this time, the ATM provides the people good services especially the people ca
 3. open browser (http://localhost:8082/atm/swagger-ui/index.html)
     1. first you should validate card number (E.g. 1459833336354632)  
     2. second you should authenticate previous step card number (E.g. for above card use 8521 )  
-    3. now you can use card transaction services  
+    3. now you can use card transaction services 
+    4. if running not from docker update atmservice project application.properties , change service urls from bankservice to localhost
