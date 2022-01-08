@@ -1,45 +1,30 @@
 version: '3'
-
 services:
-
   atm_emulator:
     container_name: atm_emulator
     build:
-          context: .
-          dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - project:/project
-      - maven-repo:/root/.m2/
-    restart: unless-stopped
-
-
+      - ./prj:/prj
   bankservice:
     container_name: bankservice
+    hostname: bankservice
     build:
       context: ./bankservice/
       dockerfile: Dockerfile
     ports:
-     - 8083:8083
-    volumes:
-          - project:/project
-    restart: unless-stopped
+      - 8083:8083
     depends_on:
       - atm_emulator
-
-
   atmservice:
-      container_name: atmservice
-      hostname: javacodegeeks_webserver
-      build:
-          context: ./atmservice
-          dockerfile: Dockerfile
-      ports:
-        - 8082:8082
-      volumes:
-        - project:/project
-      restart: always
-      depends_on:
-        - atm_emulator
-volumes:
-         project:
-         maven-repo:        
+    container_name: atmservice
+    hostname: atmservice
+    build:
+      context: ./atmservice
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    depends_on:
+      - bankservice
+    restart: always
