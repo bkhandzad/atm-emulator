@@ -1,18 +1,17 @@
 FROM maven:3.8.4-openjdk-11
 
 MAINTAINER bkhandzad@gmail.com
+#VOLUME ["/root/.m2/repository"]
 
-USER root
+RUN mkdir -p /prj
 
-COPY . /tmp/app/
+COPY . /app/
 
-WORKDIR /tmp/app/
+WORKDIR /app/
+
 
 RUN mvn clean install package -DskipTests
-RUN ll /tmp/app/banckservice/target/
-RUN ll /project/
-COPY /tmp/app/bankservice/target/bankservice-0.0.1.jar /project/bankservice-0.0.1.jar
-COPY /tmp/app/atmservice/target/atmservice-0.0.1.jar /project/atmservice-0.0.1.jar
 
-RUN ll /project
-
+RUN cp ./bankservice/target/bankservice-0.0.1.jar /prj/bankservice-0.0.1.jar
+RUN cp ./atmservice/target/atmservice-0.0.1.jar /prj/atmservice-0.0.1.jar
+VOLUME ["/prj"]
