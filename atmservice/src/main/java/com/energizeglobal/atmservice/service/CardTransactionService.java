@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-@Service(CurrentTransactionService.BEAN_NAME)
-public class CurrentTransactionService {
+@Service(CardTransactionService.BEAN_NAME)
+public class CardTransactionService {
     public static final String BEAN_NAME = "currentTransactionService";
 
     @Autowired
     CardTransaction cardTransaction;
 
-    public String withDraw( BigDecimal amount) {
+    public String withDraw( BigDecimal amount) throws Exception {
         if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
             return "Please Insert Card";
         if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
@@ -30,29 +30,33 @@ public class CurrentTransactionService {
         CardTransactionDto transaction = cardTransaction.withdrawTransaction(amount);
         if (transaction.getTransactionResult() == CardTransactionResult.OK) {
             CurrentCard.getINSTANCE().setCurrentTransactionID(transaction.getId());
-            WithdrawCash.withdrawCash(amount);
-            Print.printTransaction(transaction);
+            if (WithdrawCash.withdrawCash(amount))
+                Print.printTransaction(transaction);
+            else
+                throw new RuntimeException("Cannot Withdraw cash");
             return "OK";
         } else
             return "Invalid Transaction";
     }
 
 
-    public String deposit( BigDecimal amount) {
+    public String deposit( BigDecimal amount) throws Exception {
         if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.NONE)
             return "Please Insert Card";
         if (CurrentCard.getINSTANCE().getCurrentCardSate() == CurrentCardSate.CARD_INSERTED)
             return "Please enter card authentication";
         CurrentCard.getINSTANCE().setCurrentTransactionID(-1L);
         CardTransactionDto transaction = cardTransaction.depositTransaction(amount);
-        if (transaction.getTransactionResult() == CardTransactionResult.OK) {
-            CurrentCard.getINSTANCE().setCurrentTransactionID(transaction.getId());
-            DepositCash.depositCash(amount);
-            Print.printTransaction(transaction);
-            return "OK";
-        }
+        if (DepositCash.depositCash(amount))
+            if (transaction.getTransactionResult() == CardTransactionResult.OK) {
+                CurrentCard.getINSTANCE().setCurrentTransactionID(transaction.getId());
+
+                Print.printTransaction(transaction);
+                return "OK";
+            } else
+                return "Invalid Transaction";
         else
-            return "Invalid Transaction";
+            throw new RuntimeException("Cannot Deposit cash");
     }
 
     public void removeTransaction() {

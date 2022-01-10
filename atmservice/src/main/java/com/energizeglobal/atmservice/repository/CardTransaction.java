@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service(CardTransaction.BEAN_NAME)
 public class CardTransaction {
@@ -50,6 +52,17 @@ public class CardTransaction {
     public CardBalanceDto getCardBalance(){
         RestTemplate restTemplate = new RestTemplate();
         CustomHttpEntity<CardBalanceDto> entity = new CustomHttpEntity<>();
-        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.balance"), entity.getHttpEntity(new CardBalanceDto(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber())), CardBalanceDto.class).getBody();
+        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.balance"),
+                entity.getHttpEntity(new CardBalanceDto(CurrentCard.getINSTANCE().getCurrentCard().getCardNumber())),
+                CardBalanceDto.class).getBody();
+    }
+
+    public List<CardTransactionDto> getCardTransactions(){
+        List<CardTransactionDto> transactions = new ArrayList();
+        RestTemplate restTemplate = new RestTemplate();
+        CustomHttpEntity<List<CardTransactionDto>> entity = new CustomHttpEntity<>();
+        return restTemplate.postForEntity(PropertiesCache.getInstance().getProperty("service.transactions"),
+                entity.getHttpEntity(transactions),
+                transactions.getClass()).getBody();
     }
 }
